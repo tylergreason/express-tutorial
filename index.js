@@ -2,6 +2,7 @@ const express = require('express');
 const app = express(); 
 const PORT = process.env.PORT || 5000; 
 const path = require('path'); 
+const exphbs = require('express-handlebars'); 
 
 // record the date 
 let ts = Date.now(); //time in seconds 
@@ -22,6 +23,14 @@ app.use(logger);
 // body parser middleware 
 app.use(express.json()); 
 app.use(express.urlencoded({extended: false})); 
+
+// view middleware 
+app.engine('handlebars', exphbs({defaultLayout:'main'}));
+app.set('view engine', 'handlebars');
+
+// below was used for rendering templates, but I'll most likely be using Express as an api, not as a complete server-side rendered application. 
+// // render index page 
+// app.get('/', (req, res) => res.render('index'));
 
 app.listen(PORT, () => console.log(`server started on ${PORT}`))
 
